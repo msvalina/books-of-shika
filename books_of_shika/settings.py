@@ -67,6 +67,9 @@ DATABASES = {
 # Templates dir search path
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
+# Setting login redirect to root insted of /accounts/profile
+LOGIN_REDIRECT_URL = '/'
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 

@@ -3,6 +3,5 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
 @login_required
-def index(request):
-    print "test"
+def home(request):
     return HttpResponse("Wooow ulogiran sam")
