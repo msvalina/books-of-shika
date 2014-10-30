@@ -1,24 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
+{% load staticfiles %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0
+Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<link rel="stylesheet" href="style.css" />
-<title>{% block title %}templates/base.html{% endblock %}</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<title>{% block title %}Book records app {% endblock %} </title>
+<meta name="ROBOTS" content="ALL" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta name="MSSmartTagsPreventParsing" content="true" />
+<meta name="Copyright" content="Marijan Svalina" />
+<meta name="keywords" content="Book tracking app, Python, Django" />
+<meta name="description" content="Shika is app for personal book tracking and
+lending" />
+{# Load the tag libraries #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% block extrahead %} {% endblock extrahead %}
+
 </head>
+
 <body>
-<div id="sidebar">
-    {% block sidebar %}
-    <ul>
-        <li><a href="/">Home</a></li>
-        {% if user.is_authenticated %}
-        <li><a href="/accounts/logout">Logout</a></li>
-        {% else %}
-        <li><a href="/accounts/login">Login</a></li>
-        {% endif %}
-    </ul>
-    {% endblock %}
-</div>
-<div id="content">
-    {% block content %}{% endblock %}
-</div>
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'shika' %}">Books of shika</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="{% url 'shika:home' %}">Shika</a></li>
+          <li><a href="{% url 'shika:home' %}">Own Collection</a></li>
+          <li><a href="{% url 'shika:home' %}">All Collections</a></li>
+          <li><a href="{% url 'shika:home' %}">Lend a book</a></li>
+        </ul>
+      {% if user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#"> {{ user.username }} </a></li>
+        </ul>
+      {% else %}
+        {% block login %} {% endblock %}
+      {% endif %}
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+
+  <div class="container theme-showcase" role="main">
+
+  <br>
+  {% block content %}
+  {% endblock content %}
+
+  </div><!-- /.container -->
+
 </body>
 </html>
