@@ -10,5 +10,5 @@ urlpatterns = patterns('',
     url(r'^shika/', include('shika.urls', namespace="shika")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
-
+    url(r'^accounts/logout/$', 'shika.views.logout_view', name='shika'),
 )
