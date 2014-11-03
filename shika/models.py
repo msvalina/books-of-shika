@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Book(models.Model):
     """ Book model """
@@ -11,19 +12,19 @@ class Book(models.Model):
 
 class BookOwner(models.Model):
     """ Book owners model """
-    name = models.CharField(max_length=200)
+    name = models.ForeignKey(User)
     book = models.ForeignKey(Book)
 
     def __unicode__(self):
-        return self.name + " - " + str(self.book)
+        return str(self.name) + " - " + str(self.book)
 
 class Reader(models.Model):
     """ Reader model """
-    name = models.CharField(max_length=200, null=True, blank=True)
+    name = models.ForeignKey(User)
     book = models.ForeignKey(Book)
 
     def __unicode__(self):
-        return self.name + " - " + str(self.book)
+        return str(self.name) + " - " + str(self.book)
 
 class LendingRequest(models.Model):
     """ Book lending request """

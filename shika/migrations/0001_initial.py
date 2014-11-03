@@ -2,11 +2,13 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -26,8 +28,8 @@ class Migration(migrations.Migration):
             name='BookOwner',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=200)),
                 ('book', models.ForeignKey(to='shika.Book')),
+                ('name', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
             },
@@ -61,8 +63,8 @@ class Migration(migrations.Migration):
             name='Reader',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=200, null=True, blank=True)),
                 ('book', models.ForeignKey(to='shika.Book')),
+                ('name', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
             },
