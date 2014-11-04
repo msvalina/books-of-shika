@@ -1,1 +1,25 @@
+{# vim:set et sw=2 ts=2 tw=80: #}
 {% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <div class="container">
+    <h1>Hello, {{ user.username }}!</h1>
+    <p>Welcome to the Shika simple web application for managing your books. It
+    lets you track your book library and lets your request a lending from other
+    users also using shika. </p>
+    <div class="btn group">
+      <a class="btn btn-primary btn-lg" href="#" role="button">
+      Add a Book</a>
+      <a class="btn btn-primary btn-lg" href="{% url 'shika:collection' %}"
+        role="button"> Own Collection</a>
+      <a class="btn btn-primary btn-lg" href="#" role="button">
+      All Collections</a>
+      <a class="btn btn-primary btn-lg" href="#" role="button">
+      Lend a Book</a>
+      <a class="btn btn-primary btn-lg" href="#" role="button">
+      Confirm Lending</a>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
