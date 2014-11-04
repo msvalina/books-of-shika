@@ -1,0 +1,22 @@
+{# vim:set et sw=2 ts=2 tw=80: #}
+{% extends "base.html" %}
+{% block content %}
+
+<div class="page-header">
+    <br>
+    <h1> List of {{ user.username }}s books </h1>
+</div>
+
+<div class="col-md-8">
+{% if books %}
+  {% for book in books %}
+    <ul class="list-group">
+      <li class="list-group-item"> {{ book }} </li>
+    </ul>
+  {% endfor %} 
+{% else %}
+    <p>No books are available.</p>
+{% endif %}
+</div>
+
+{% endblock content %}
