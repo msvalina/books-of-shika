@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from shika.models import Book, BookOwner, LendingRecords, LendingRequest
-from shika.forms import BookEntryForm
+from shika.forms import BookEntryForm, LendingRequestForm
 
 @login_required
 def home(request):
@@ -39,6 +39,28 @@ def book_entry(request):
         form = BookEntryForm()
 
     return render(request, 'bookentry.html', {'form': form})
+
+@login_required
+def lending_request(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = LendingRequestForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            lending_req = form.save(commit=False)
+            lending_req.is_sent = True
+            lending_req.save()
+            # redirect to a new URL:
+            return HttpResponseRedirect('thanks/')
+
+    # if a GET (or any other method) we'll create a blank form with inital value
+    # for reader input
+    else:
+        form = LendingRequestForm(initial={'reader':request.user})
+
+    return render(request, 'lending.html', {'form': form})
 
 @login_required
 def thanks(request):
