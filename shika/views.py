@@ -63,6 +63,38 @@ def lending_request(request):
     return render(request, 'lending.html', {'form': form})
 
 @login_required
+def confirm_request(request):
+    unconfirmed_requests = LendingRequest.objects.filter(
+                           book_owner__name=request.user,
+                           is_confirmed=None)
+
+    if request.method == 'POST':
+        try:
+            req_id = request.POST['Confirm']
+            print req_id
+            req = LendingRequest.objects.get(id=req_id)
+            req.is_confirmed = True
+            req.save()
+            return redirect('/shika/confirm/')
+        except KeyError:
+            print 'WTf'
+        try:
+            req_id = request.POST['Deny']
+            print req_id
+            req = LendingRequest.objects.get(id=req_id)
+            req.is_confirmed = False
+            req.save()
+            return redirect('/shika/confirm/')
+        except KeyError:
+            print 'WTffff'
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        context = {'requests': unconfirmed_requests}
+
+        return render(request, 'confirmation.html', context)
+
+@login_required
 def thanks(request):
     return HttpResponse("thanks")
 

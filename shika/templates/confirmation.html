@@ -1,0 +1,34 @@
+{# vim:set et sw=2 ts=2 tw=80: #}
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+  <br>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Confirm a Book Lending Request</h3>
+    </div>
+    <!-- Table -->
+    <table class="table">
+      <tr>
+        <td>Request id:</td> <td>Reader:</td> <td>Book Owner:</td>
+        <td>Book:</td> <td>Confirm:</td>
+      </tr>
+        {% for req in requests %}
+          <tr>
+            <td>{{ req.id  }}</td> <td>{{ req.reader }}</td> 
+            <td>{{ req.book_owner }}</td> <td>{{ req.book }}</td>
+          <td> 
+            <form action="/shika/confirm/" method="post" class="form-inline">
+              {% csrf_token %}
+              <div class="form-group"><button class="btn btn-success"
+                  name="Confirm" value="{{ req.id }}" type="submit">Confirm</button></div>
+              <div class="form-group"><button class="btn btn-danger"
+                  name="Deny" value="{{ req.id }}" type="submit">Deny</button></div>
+            </form>
+          </td>
+          </tr>
+        {% endfor %}
+    </table>
+  </div>
+{% endblock content %}
