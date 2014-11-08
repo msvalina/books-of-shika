@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_list_or_404
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render_to_response
+from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -19,6 +20,14 @@ def collection(request):
     context = {'books': books}
 
     return render(request, 'shika/collection.html', context)
+
+def allcollections(request):
+    books = Book.objects.all()
+
+    context = {'books': books}
+
+    return render_to_response('shika/collection.html', context,
+            context_instance=RequestContext(request))
 
 @login_required
 def book_entry(request):
