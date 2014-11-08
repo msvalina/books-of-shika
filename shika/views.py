@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from shika.models import Book, BookOwner, LendingRecords, LendingRequest
+from shika.models import Book, BookOwner, LendingRecord, LendingRequest
 from shika.forms import BookEntryForm, LendingRequestForm
 
 @login_required

@@ -8,7 +8,7 @@ class Book(models.Model):
     is_lended = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.author + " by " + self.name
+        return self.name + " by " + self.author
 
 class BookOwner(models.Model):
     """ Book owners model """
@@ -16,7 +16,7 @@ class BookOwner(models.Model):
     book = models.ForeignKey(Book)
 
     def __unicode__(self):
-        return str(self.name) + " - " + str(self.book)
+        return str(self.name) + " - " + self.book.name
 
 class LendingRequest(models.Model):
     """ Book lending request """
@@ -24,12 +24,12 @@ class LendingRequest(models.Model):
     book_owner = models.ForeignKey(BookOwner)
     book = models.ForeignKey(Book)
     is_sent = models.BooleanField(default=False)
-    is_confirmed = models.BooleanField(default=False)
+    is_confirmed = models.NullBooleanField(null=True, blank=True)
 
     def __unicode__(self):
-        return str(self.id)
+        return str(self.id) + " - " + self.book.name
     
-class LendingRecords(models.Model):
+class LendingRecord(models.Model):
     """ Book lending records model """ 
     book = models.ForeignKey(Book)
     book_owner = models.ForeignKey(BookOwner)
@@ -37,4 +37,4 @@ class LendingRecords(models.Model):
     request = LendingRequest(LendingRequest)
 
     def __unicode__(self):
-        return str(self.id)
+        return str(self.id) + " - Req: " + str(self.request.id)

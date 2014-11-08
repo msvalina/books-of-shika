@@ -1,9 +1,9 @@
 from django.contrib import admin
-from shika.models import Book, BookOwner, LendingRequest, LendingRecords
+from shika.models import Book, BookOwner, LendingRequest, LendingRecord
 
 admin.site.register(Book)
 admin.site.register(BookOwner)
 admin.site.register(LendingRequest)
-admin.site.register(LendingRecords)
+admin.site.register(LendingRecord)
 
 
