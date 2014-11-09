@@ -1,0 +1,29 @@
+{# vim:set et sw=2 ts=2 tw=80: #}
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block content %}
+  <br>
+  <br>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Your Book Lending Records</h3>
+    </div>
+    <!-- Table -->
+    <table class="table">
+      <tr>
+        <td>Request id:</td> <td>Reader:</td> <td>Book Owner:</td>
+        <td>Book:</td>
+      </tr>
+        {% if records %}
+        {% for rec in records %}
+          <tr>
+            <td>{{ rec.request_id  }}</td> <td>{{ rec.reader }}</td> 
+            <td>{{ rec.book_owner }}</td> <td>{{ rec.book }}</td>
+          </tr>
+        {% endfor %}
+        {% else %}
+          <tr><td>No records</td></tr>
+        {% endif %}
+    </table>
+  </div>
+{% endblock content %}

@@ -80,10 +80,12 @@ def confirm_request(request):
     if request.method == 'POST':
         try:
             req_id = request.POST['Confirm']
-            print req_id
             req = LendingRequest.objects.get(id=req_id)
             req.is_confirmed = True
             req.save()
+            record = LendingRecord(book=req.book, book_owner=req.book_owner,
+                    reader=req.reader, request=req)
+            record.save()
             return redirect('/shika/confirm/')
         except KeyError:
             print 'WTf'
@@ -102,6 +104,14 @@ def confirm_request(request):
         context = {'requests': unconfirmed_requests}
 
         return render(request, 'confirmation.html', context)
+
+@login_required
+def lending_records(request):
+    records = LendingRecord.objects.filter(reader=request.user)
+
+    context = {'records': records}
+
+    return render(request, 'shika/records.html', context)
 
 @login_required
 def thanks(request):

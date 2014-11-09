@@ -34,7 +34,7 @@ class LendingRecord(models.Model):
     book = models.ForeignKey(Book)
     book_owner = models.ForeignKey(BookOwner)
     reader = models.ForeignKey(User)
-    request = LendingRequest(LendingRequest)
+    request = models.ForeignKey(LendingRequest)
 
     def __unicode__(self):
         return str(self.id) + " - Req: " + str(self.request.id)
