@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.contrib import messages
 from shika.models import Book, BookOwner, LendingRecord, LendingRequest
 from shika.forms import BookEntryForm, LendingRequestForm
 
@@ -41,7 +42,8 @@ def book_entry(request):
             # ...
             # redirect to a new URL:
             form.save()
-            return HttpResponseRedirect('thanks/')
+            messages.add_message(request, messages.INFO, 'Book added!')
+            return redirect('/shika/bookentry/')
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -61,8 +63,9 @@ def lending_request(request):
             lending_req = form.save(commit=False)
             lending_req.is_sent = True
             lending_req.save()
+            messages.add_message(request, messages.INFO, 'Request sent!')
             # redirect to a new URL:
-            return HttpResponseRedirect('thanks/')
+            return redirect('/shika/lending/')
 
     # if a GET (or any other method) we'll create a blank form with inital value
     # for reader input
@@ -73,6 +76,7 @@ def lending_request(request):
 
 @login_required
 def confirm_request(request):
+
     unconfirmed_requests = LendingRequest.objects.filter(
                            book_owner__name=request.user,
                            is_confirmed=None)
@@ -86,6 +90,7 @@ def confirm_request(request):
             record = LendingRecord(book=req.book, book_owner=req.book_owner,
                     reader=req.reader, request=req)
             record.save()
+            messages.add_message(request, messages.INFO, 'Request confirmed!')
             return redirect('/shika/confirm/')
         except KeyError:
             print 'WTf'
@@ -95,6 +100,7 @@ def confirm_request(request):
             req = LendingRequest.objects.get(id=req_id)
             req.is_confirmed = False
             req.save()
+            messages.add_message(request, messages.INFO, 'Request denyed!')
             return redirect('/shika/confirm/')
         except KeyError:
             print 'WTffff'
@@ -112,10 +118,6 @@ def lending_records(request):
     context = {'records': records}
 
     return render(request, 'shika/records.html', context)
-
-@login_required
-def thanks(request):
-    return HttpResponse("thanks")
 
 def logout_view(request):
     logout(request)

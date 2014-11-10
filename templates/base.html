@@ -61,6 +61,15 @@ lending" />
   </div>
 
   <div class="container theme-showcase" role="main">
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </ul>
+  {% endif %}
   <br>
   <br>
   {% block content %}
