@@ -41,7 +41,10 @@ def book_entry(request):
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
-            form.save()
+            book_entry = form.save(commit=False)
+            book_entry.save()
+            book_owner = BookOwner(name=request.user, book=book_entry)
+            book_owner.save()
             messages.add_message(request, messages.INFO, 'Book added!')
             return redirect('/shika/bookentry/')
 
