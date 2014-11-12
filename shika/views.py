@@ -11,7 +11,11 @@ from shika.forms import BookEntryForm, LendingRequestForm
 
 @login_required
 def home(request):
-    return render(request, 'shika/home.html')
+    unconfirmed_requests = LendingRequest.objects.filter(
+                           book_owner__name=request.user,
+                           is_confirmed=None).count()
+    context = {'unconfirmed_requests_num': unconfirmed_requests}
+    return render(request, 'shika/home.html', context)
 
 @login_required
 def collection(request):

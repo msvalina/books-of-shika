@@ -7,6 +7,9 @@
     <p>Welcome to the Shika simple web application for managing your books. It
     lets you track your book library and lets your request a lending from other
     users also using shika. </p>
+    {% if unconfirmed_requests_num %}
+      <p>You have {{ unconfirmed_requests_num }} lending requests </p>
+    {% endif %}
     <div class="btn group">
       <a class="btn btn-primary btn-lg" href="{% url 'shika:collection' %}"
         role="button"> Own Collection</a>
