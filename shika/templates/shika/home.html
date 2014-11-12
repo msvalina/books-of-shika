@@ -8,12 +8,12 @@
     lets you track your book library and lets your request a lending from other
     users also using shika. </p>
     <div class="btn group">
-      <a class="btn btn-primary btn-lg" href="{% url 'shika:bookentry' %}"
-        role="button"> Add a Book</a>
       <a class="btn btn-primary btn-lg" href="{% url 'shika:collection' %}"
         role="button"> Own Collection</a>
-      <a class="btn btn-primary btn-lg" href="/shika/allcollections/"
+      <a class="btn btn-primary btn-lg" href="{% url 'shika:allcollection' %}"
         role="button"> All Collections</a>
+      <a class="btn btn-primary btn-lg" href="{% url 'shika:bookentry' %}"
+        role="button"> Add a Book</a>
       <a class="btn btn-primary btn-lg" href="{% url 'shika:lending' %}"
         role="button"> Lend a Book</a>
       <a class="btn btn-primary btn-lg" href="{% url 'shika:confirm' %}"
