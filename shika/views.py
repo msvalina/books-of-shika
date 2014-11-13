@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
@@ -57,6 +57,13 @@ def book_entry(request):
         form = BookEntryForm()
 
     return render(request, 'bookentry.html', {'form': form})
+
+@login_required
+def book_detail(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    context = {'book': book}
+
+    return render(request, 'shika/bookdetail.html', context)
 
 @login_required
 def lending_request(request):

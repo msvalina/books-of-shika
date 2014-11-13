@@ -1,0 +1,22 @@
+{# vim:set et sw=2 ts=2 tw=80: #}
+{% extends "base.html" %}
+{% block content %}
+
+<br>
+<br>
+
+<div class="col-md-8">
+{% if book %}
+    <ul class="list-group">
+      <li class="list-group-item"> {{ book.name }} </li>
+      <li class="list-group-item"> {{ book.author }} </li>
+      <li class="list-group-item"> {{ book.id}} </li>
+      <li class="list-group-item"> {{ book.is_lended}} </li>
+    </ul>
+{% else %}
+    <p>No books are available.</p>
+{% endif %}
+</div>
+
+{% endblock content %}
+
