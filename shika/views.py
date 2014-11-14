@@ -69,15 +69,19 @@ def lending_request(request):
             # process the data in form.cleaned_data as required
             lending_req = form.save(commit=False)
             lending_req.is_sent = True
+            book_owner = BookOwner.objects.get(book=lending_req.book)
+            lending_req.book_owner = book_owner
             lending_req.save()
-            messages.add_message(request, messages.INFO, 'Request sent!')
+            messages.add_message(request, messages.INFO, 'Request sent to %s!' % book_owner.name)
             # redirect to a new URL:
             return redirect('/shika/lending/')
 
     # if a GET (or any other method) we'll create a blank form with inital value
     # for reader input
     else:
-        form = LendingRequestForm(initial={'reader':request.user})
+        form = LendingRequestForm(initial={'reader': request.user})
+        form.fields['book'].queryset = Book.objects.exclude(bookowner__name=request.user)
+        form.fields['reader'].queryset = User.objects.filter(username=request.user.username)
 
     return render(request, 'lending.html', {'form': form})
 

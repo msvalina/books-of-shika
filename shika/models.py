@@ -21,7 +21,7 @@ class BookOwner(models.Model):
 class LendingRequest(models.Model):
     """ Book lending request """
     reader = models.ForeignKey(User)
-    book_owner = models.ForeignKey(BookOwner)
+    book_owner = models.ForeignKey(BookOwner, null=True, blank=True)
     book = models.ForeignKey(Book)
     is_sent = models.BooleanField(default=False)
     is_confirmed = models.NullBooleanField(null=True, blank=True)

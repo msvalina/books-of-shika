@@ -7,8 +7,6 @@ class BookEntryForm(ModelForm):
         fields = ['name', 'author', 'is_lended']
 
 class LendingRequestForm(ModelForm):
-
     class Meta:
         model = LendingRequest
-        fields = ['book', 'book_owner', 'reader']
-
+        fields = ['book', 'reader']
