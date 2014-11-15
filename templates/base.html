@@ -75,7 +75,7 @@ src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
     </div>
   </nav>
 
-  <div class="container theme-showcase" role="main">
+  <div class="container theme-showcase" role="main" style="margin-top:3em;">
   {% if messages %}
     <ul class="messages">
       {% for message in messages %}
@@ -85,8 +85,6 @@ src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
       {% endfor %}
     </ul>
   {% endif %}
-  <br>
-  <br>
   {% block content %}
   {% endblock content %}
 

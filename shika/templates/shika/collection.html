@@ -3,12 +3,11 @@
 {% block content %}
 
 <div class="page-header">
-    <br>
-    {% if request.path == "/shika/allcollections/" %}
-      <h1> List of all users books </h1>
-    {% else %}
-      <h1> List of {{ user.username }}s books </h1>
-    {% endif %}
+  {% if request.path == "/shika/allcollections/" %}
+    <h1> List of all users books </h1>
+  {% else %}
+    <h1> List of {{ user.username }}s books </h1>
+  {% endif %}
 </div>
 
 <div class="col-md-8">
