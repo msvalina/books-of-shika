@@ -3,12 +3,12 @@ from django.contrib.auth.models import User
 
 class Book(models.Model):
     """ Book model """
-    name = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     is_lended = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.name + " by " + self.author
+        return self.title + " by " + self.author
 
 class BookOwner(models.Model):
     """ Book owners model """
@@ -16,7 +16,7 @@ class BookOwner(models.Model):
     book = models.ForeignKey(Book)
 
     def __unicode__(self):
-        return str(self.name) + " - " + self.book.name
+        return str(self.name) + " - " + self.book.title
 
 class LendingRequest(models.Model):
     """ Book lending request """
@@ -27,10 +27,10 @@ class LendingRequest(models.Model):
     is_confirmed = models.NullBooleanField(null=True, blank=True)
 
     def __unicode__(self):
-        return str(self.id) + " - " + self.book.name
-    
+        return str(self.id) + " - " + self.book.title
+
 class LendingRecord(models.Model):
-    """ Book lending records model """ 
+    """ Book lending records model """
     book = models.ForeignKey(Book)
     book_owner = models.ForeignKey(BookOwner)
     reader = models.ForeignKey(User)
