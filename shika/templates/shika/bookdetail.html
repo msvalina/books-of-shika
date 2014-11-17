@@ -2,10 +2,14 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="page-header">
+  <h1> Book detail </h1>
+</div>
+
 <div class="col-md-8">
 {% if book %}
     <ul class="list-group">
-      <li class="list-group-item"> {{ book.name }} </li>
+      <li class="list-group-item"> {{ book.title }} </li>
       <li class="list-group-item"> {{ book.author }} </li>
       <li class="list-group-item"> {{ book.id}} </li>
       <li class="list-group-item"> {{ book.is_lended}} </li>

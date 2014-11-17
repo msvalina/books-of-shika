@@ -14,7 +14,7 @@
 {% if books %}
   {% for book in books %}
     <ul class="list-group">
-      <li class="list-group-item"> {{ book }} </li>
+      <li class="list-group-item"><a href="{% url 'shika:bookdetail' book.id %}"> {{ book }} </a></li>
     </ul>
   {% endfor %} 
 {% else %}
