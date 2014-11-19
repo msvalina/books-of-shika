@@ -65,7 +65,7 @@ def book_entry(request):
     else:
         form = BookForm()
 
-    return render_to_response('bookform.html', {'form': form},
+    return render_to_response('shika/bookform.html', {'form': form},
             context_instance=RequestContext(request))
 
 @login_required
@@ -90,7 +90,7 @@ def book_edit(request, book_id):
             form = BookForm(instance=book)
             context = {'form': form, 'book': book}
 
-            return render(request, 'bookform.html', context)
+            return render(request, 'shika/bookform.html', context)
 
     # if user is not the book owner
     else:
@@ -142,7 +142,7 @@ def lending_request(request):
         form.fields['reader'].queryset = User.objects.filter(
                                          username=request.user.username)
 
-    return render(request, 'lending.html', {'form': form})
+    return render(request, 'shika/lending.html', {'form': form})
 
 @login_required
 def confirm_request(request):
@@ -204,7 +204,7 @@ def confirm_request(request):
     else:
         context = {'requests': unconfirmed_requests}
 
-        return render(request, 'confirmation.html', context)
+        return render(request, 'shika/confirmation.html', context)
 
 @login_required
 def lending_records(request):
