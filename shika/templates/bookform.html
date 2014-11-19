@@ -3,18 +3,34 @@
 {% load bootstrap3 %}
 {% block content %}
 <div class="page-header">
+  {% if request.path == "/shika/bookentry/" %}
   <h1> Add a book to your library </h1>
+  {% else %}
+  <h1> Edit your book </h1>
+  {% endif %}
 </div>
   <div class="panel panel-primary">
     <div class="panel-heading">
+    {% if request.path == "/shika/bookentry/" %}
       <h3 class="panel-title">Add a Book</h3>
+    {% else %}
+      <h3 class="panel-title">Edit a Book</h3>
+    {% endif %}
     </div>
     <div class="panel-body">
+    {% if request.path == "/shika/bookentry/" %}
     <form action="/shika/bookentry/" method="post">
       {% csrf_token %}
       {% bootstrap_form form %}
       {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
     </form>
+    {% else %}
+    <form action="/shika/bookedit/{{ book.id }}/" method="post">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
+    </form>
+    {% endif %}
     </div>
   </div>
 {% endblock content %}

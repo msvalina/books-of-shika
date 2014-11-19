@@ -7,7 +7,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from shika.models import Book, BookOwner, LendingRecord, LendingRequest
-from shika.forms import BookEntryForm, LendingRequestForm
+from shika.forms import BookForm, LendingRequestForm
 
 @login_required
 def home(request):
@@ -50,7 +50,7 @@ def book_entry(request):
 
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = BookEntryForm(request.POST)
+        form = BookForm(request.POST)
         if form.is_valid():
             # process the data 
             book_entry = form.save(commit=False)
@@ -58,13 +58,47 @@ def book_entry(request):
             book_owner = BookOwner(name=request.user, book=book_entry)
             book_owner.save()
             messages.add_message(request, messages.INFO, 'Book added!')
+
             return redirect('/shika/bookentry/')
 
     # if a GET (or any other method) create a blank form
     else:
-        form = BookEntryForm()
+        form = BookForm()
 
-    return render(request, 'bookentry.html', {'form': form})
+    return render_to_response('bookform.html', {'form': form},
+            context_instance=RequestContext(request))
+
+@login_required
+def book_edit(request, book_id):
+    """ Edit book view if user is owner else redirect to book detail """
+
+    book = Book.objects.get(id=book_id)
+    bookowner = BookOwner.objects.get(book=book)
+    if bookowner.name == request.user:
+        if request.method == 'POST':
+            # create a form instance and populate it with data from the request:
+            form = BookForm(request.POST, instance=book)
+            if form.is_valid():
+                # process the data
+                form.save()
+                messages.add_message(request, messages.INFO, 'Book edited!')
+
+                return redirect('/shika/bookdetail/%s/' % book_id )
+
+        # if a GET (or any other method) create a blank form
+        else:
+            form = BookForm(instance=book)
+            context = {'form': form, 'book': book}
+
+            return render(request, 'bookform.html', context)
+
+    # if user is not the book owner
+    else:
+        messages.add_message(request, messages.WARNING,
+                "You are not the book owner so you can't edit it!")
+
+        return redirect ('shika/bookdetail/%s/' % book_id)
+
 
 @login_required
 def book_detail(request, book_id):
@@ -102,7 +136,8 @@ def lending_request(request):
         # Set query sets for presenting on LendingRequest form fileds 
         # Only show books that are not owned by logged in user
         form.fields['book'].queryset = Book.objects.exclude(
-                                       bookowner__name=request.user)
+                                       bookowner__name=request.user,
+                                       is_lended=True)
         # Set reader to logged in user
         form.fields['reader'].queryset = User.objects.filter(
                                          username=request.user.username)
@@ -134,6 +169,12 @@ def confirm_request(request):
                      reader=req.reader, request=req)
             # save record to db
             record.save()
+            # get related Book object
+            book = Book.objects.get(book=req.book)
+            # set is_lended to True
+            book.is_lended = True
+            # save to db
+            book.save()
             # print message to the user
             messages.add_message(request, messages.INFO, 'Request confirmed!')
 
