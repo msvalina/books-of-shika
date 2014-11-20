@@ -10,16 +10,25 @@
   {% endif %}
 </div>
 
-<div class="col-md-8">
 {% if books %}
   {% for book in books %}
+  <div class="col-md-6">
     <ul class="list-group">
-      <li class="list-group-item"><a href="{% url 'shika:bookdetail' book.id %}"> {{ book }} </a></li>
+      <li class="list-group-item">
+      <a href="{% url 'shika:bookdetail' book.id %}"> {{ book }} </a>
+      {% for book_for_lending in books_for_lending %}
+        {% if book.id == book_for_lending.id %}
+          <span class="pull-right">
+            <a href="{% url 'shika:lending' book.id %}"
+              class="btn btn-primary btn-xs active" role="button">Lend</a>
+          </span>
+        {% endif %}
+      {% endfor %}
+      </li>
     </ul>
+  </div>
   {% endfor %} 
 {% else %}
     <p>No books are available.</p>
 {% endif %}
-</div>
-
 {% endblock content %}

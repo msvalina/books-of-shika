@@ -37,8 +37,11 @@ def allcollections(request):
     """ All collection view presenting all books in model/libraries """
 
     books = Book.objects.all()
+    # get list of books that are not lended and not owned by logged in user
+    books_for_lending = Book.objects.exclude(is_lended=True)
+    books_for_lending = books_for_lending.exclude(bookowner__name=request.user)
 
-    context = {'books': books}
+    context = {'books': books, 'books_for_lending': books_for_lending}
 
     # context_instance allows to use request object in template
     return render_to_response('shika/collection.html', context,
@@ -111,7 +114,7 @@ def book_detail(request, book_id):
     return render(request, 'shika/bookdetail.html', context)
 
 @login_required
-def lending_request(request):
+def lending_request(request, book_id=0):
     """ Lending request view """
 
     if request.method == 'POST':
@@ -129,14 +132,30 @@ def lending_request(request):
 
             return redirect('/shika/lending/')
 
+    # GET came from collection view and form should be initialized with book_id
+    if book_id != 0:
+        book = Book.objects.get(id=book_id)
+        form = LendingRequestForm(initial={'reader': request.user,
+                                           'book': book})
+
+        form.fields['book'].queryset = Book.objects.exclude(
+                                       bookowner__name=request.user).exclude(
+                                       is_lended=True)
+        # Set reader to logged in user
+        form.fields['reader'].queryset = User.objects.filter(
+                                         username=request.user.username)
+
+        return render(request, 'shika/lending.html', {'form': form})
+
     # if a GET (or any other method) create a blank 
     else:
         # Set initial value for LendingRequest form
         form = LendingRequestForm(initial={'reader': request.user})
         # Set query sets for presenting on LendingRequest form fileds 
-        # Only show books that are not owned by logged in user
+        # Only show books that are not owned by logged in user and are not
+        # lended
         form.fields['book'].queryset = Book.objects.exclude(
-                                       bookowner__name=request.user,
+                                       bookowner__name=request.user).exclude(
                                        is_lended=True)
         # Set reader to logged in user
         form.fields['reader'].queryset = User.objects.filter(

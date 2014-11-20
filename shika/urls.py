@@ -9,6 +9,7 @@ urlpatterns = patterns('',
             url(r'bookedit/(?P<book_id>\d+)/$', views.book_edit, name='bookedit'),
             url(r'bookdetail/(?P<book_id>\d+)/$', views.book_detail, name='bookdetail'),
             url(r'lending/$', views.lending_request, name='lending'),
+            url(r'lending/(?P<book_id>\d+)/$', views.lending_request, name='lending'),
             url(r'records/$', views.lending_records, name='records'),
             url(r'confirm/$', views.confirm_request, name='confirm'),
             )

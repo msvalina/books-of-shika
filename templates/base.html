@@ -14,6 +14,7 @@
 <meta name="keywords" content="Book tracking app, Python, Django" />
 <meta name="description" content="Shika is app for personal book tracking and
 lending" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 {# Load the tag libraries #}
 {% load bootstrap3 %}
 
@@ -79,7 +80,7 @@ src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
   {% if messages %}
     <ul class="messages">
       {% for message in messages %}
-      <div class="alert alert-info" role="alert">
+      <div class="alert alert-{{ message.tags }}" role="alert">
         {{ message }}
       </div>
       {% endfor %}
