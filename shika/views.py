@@ -108,10 +108,12 @@ def book_detail(request, book_id):
     """ Detail book view """
 
     book = Book.objects.get(id=book_id)
+    book_owner = BookOwner.objects.get(book=book)
 
-    context = {'book': book}
+    context = {'book': book, 'book_owner': book_owner}
 
-    return render(request, 'shika/bookdetail.html', context)
+    return render_to_response('shika/bookdetail.html', context,
+            context_instance=RequestContext(request))
 
 @login_required
 def lending_request(request, book_id=0):

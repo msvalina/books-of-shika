@@ -13,6 +13,11 @@
       <li class="list-group-item"> {{ book.author }} </li>
       <li class="list-group-item"> {{ book.id}} </li>
       <li class="list-group-item"> {{ book.is_lended}} </li>
+      <li class="list-group-item"> {{ book_owner.name}} </li>
+      {% if book_owner.name == request.user %}
+      <a href="{% url 'shika:bookedit' book.id %}" 
+        class="list-group-item active"> Edit this book </a>
+      {% endif %}
     </ul>
 {% else %}
     <p>No books are available.</p>
