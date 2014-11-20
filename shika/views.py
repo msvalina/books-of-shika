@@ -191,7 +191,7 @@ def confirm_request(request):
             # save record to db
             record.save()
             # get related Book object
-            book = Book.objects.get(book=req.book)
+            book = Book.objects.get(id=req.book.id)
             # set is_lended to True
             book.is_lended = True
             # save to db
